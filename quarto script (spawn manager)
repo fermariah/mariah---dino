@@ -1,0 +1,33 @@
+public class NewBehaviourScript : MonoBehaviour
+{
+    float clock;
+    float cooldown = 2f;
+    [SerializeField]
+    GameObject obstacle;
+ 
+    // Update is called once per frame
+    void Update()
+    {
+        if (clock <= 0)
+        {
+            Instantiate(obstacle, new Vector2(GameManager.instance.ScreenBounds.x, -4), Quaternion.identity);
+        }
+
+        if (GameManager.instance.Speed < 10)
+        {
+            GameManager.instance.Speed += 0.1;
+        }
+
+        if (cooldown > 0.1)
+        {
+            cooldown -= 0.1;
+        }
+
+        cooldown = clock; 
+
+        else 
+        {
+            clock -= Time.deltaTime;
+        }
+    }
+}
