@@ -1,0 +1,93 @@
+public class player : MonoBehaviour
+{
+    bool onGround;
+    bool doubleJump;
+    bool jumping;
+    float lowJumpMultiplier = 1.5f;
+    float fallMultiplier = 2.5f;
+    [SerializeField]
+    Rigidbody2D rigidbody2D;
+    [SerializeField]
+    LayerMask groundMask;
+
+    public void Jump ()
+    {
+        if (onGround == true)
+        {
+            rigidbody2D.velocity = new Vector2(0, 8);
+        }
+
+        else (doubleJump == true)
+        {
+            rigidbody2D.velocity = new Vector2(0, 8);
+        }
+
+        doubleJump = false;
+    }
+
+    public void CheckGround ()
+    {
+        onGround = Physics2D.OverlapCircle(transform.position, 0.2, groundMask);
+        if (onGround == true)
+        {
+            doubleJump = true;
+        }
+    }
+
+    public void UptadeGravity ()
+    {
+        if (rigidbody2D.velocity.y > 0) (jumping == false)
+        {
+            rigidbody2D.velocity += Physics2D.gravity * lowJumpMultiplier * Time.deltaTime; 
+        }
+
+        else if (rigidbody2D.velocity.y < 0)
+        {
+            rigidbody2D.velocity += Physics2D.gravity * fallMultiplier * Time.deltaTime;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        CheckGround();
+        UptadeGravity();
+        if (Input.GetKeyDown(KeyCode.Space) == true )
+        {
+            Jump();
+            jumping = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) == true )
+        {
+            jumping = false;
+        }     
+    }
+
+    public void GameOver ()
+    {
+        if (GameManager.instance.Score > PlayerPrefs.GetInt("Record"))
+        {
+            PlayerPrefs.SetInt("Record", GameManager.instance.Score);
+            Time.timeScale = 0;
+            WindowManager.instance.GameOverWindow.SetActive(true);
+
+            PlayerPrefs.GetInt("Score: ") = WindowManager.instance.RecordText.text;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle") == true)
+        {
+            GameOver();
+        }
+
+        else if (collision.gameObject.CompareTag("Point") == true)
+        {
+            Score.instance.GameManager += 1;
+        }
+
+        GameManager.instance.Score("Score: ") = WindowManager.instance.ScoreText.text;
+    }
+}
