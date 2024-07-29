@@ -1,0 +1,20 @@
+public class GameManager : MonoBehaviour
+{
+
+    public static GameManager instance;
+    float speed = 4f;
+    int score;
+    Vector2 screenBounds;
+
+    public float Speed { get => speed; set => speed = value; }
+    public int Score { get => score; set => score = value; }
+    public Vector2 ScreenBounds { get => screenBounds; }
+
+    public void Awake ()
+    {
+        instance = this;
+        screenBounds = new Vector2(1, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z)));
+    }
+
+    
+}
