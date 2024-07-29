@@ -1,0 +1,36 @@
+public class WindowManager : MonoBehaviour
+{
+    public static WindowManager instance;
+    [SerializeField]
+    GameObject gameOverWindow;
+    [SerializeField]
+    TextMeshProUGUI scoreText;
+
+    [SerializeField]
+    TextMeshProUGUI finalScoreText;
+
+    [SerializeField]
+    TextMeshProUGUI recordText;
+
+    public TextMeshProUGUI ScoreText { get => scoreText; }
+    public TextMeshProUGUI FinalScoreText { get => finalScoreText;  }
+    public TextMeshProUGUI RecordText { get => recordText; }
+
+    public void Menu ()
+    {
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1;
+    }
+
+    public void Restart ()
+    {
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1;
+    }
+
+    public void Awake()
+    {
+        instance = this;
+    }
+    
+}
